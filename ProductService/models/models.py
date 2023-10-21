@@ -8,4 +8,4 @@ class Products(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
     weight = Column(Float)
-    description = Column(String,index=True, default=None)
+    description = Column(String, default=None)
