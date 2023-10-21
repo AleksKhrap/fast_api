@@ -28,7 +28,7 @@ async def read_products(skip: int = 0, limit: int = 100, db: Session = Depends(g
 
 @app.post('/')
 async def create_product(product: schemas.Product, db: Session = Depends(get_db)):
-    db_product = models.Products(**product.dict())
+    db_product = models.Products(**product.model_dump())
     db.add(db_product)
     db.commit()
     db.refresh(db_product)
