@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends  # , HTTPException
+from fastapi import FastAPI, Depends, HTTPException
 from typing import List
 from sqlalchemy.orm import Session
 from ProductService.models import models, schemas
@@ -35,7 +35,7 @@ async def create_product(product: schemas.Product, db: Session = Depends(get_db)
     return db_product
 
 
-'''@app.delete('/{id}')
+@app.delete('/{id}')
 async def remove_product(id: int, db: Session = Depends(get_db)):
     product = db.query(models.Products).filter(models.Products.id == id).first()
     if not product:
@@ -46,12 +46,12 @@ async def remove_product(id: int, db: Session = Depends(get_db)):
 
 
 @app.put('/')
-async def update_product(product: schemas.Products, db: Session = Depends(get_db)):
+async def update_product(product: schemas.Product, db: Session = Depends(get_db)):
     db_product = db.query(models.Products).filter(models.Products.id == product.id).first()
     if not db_product:
         raise HTTPException(status_code=404, detail="Product not found")
-    for key, value in product.dict().items():
+    for key, value in product.model_dump().items():
         setattr(db_product, key, value)
     db.commit()
     db.refresh(db_product)
-    return db_product'''
+    return db_product
