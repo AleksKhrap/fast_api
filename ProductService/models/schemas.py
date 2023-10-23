@@ -2,17 +2,17 @@ from typing import Union
 from pydantic import BaseModel
 
 
-class ProductsBase(BaseModel):
+class ProductBase(BaseModel):
     name: str
     weight: float
     description: Union[str, None] = None
 
 
-class ProductCreate(ProductsBase):
+class ProductCreate(ProductBase):
     pass
 
 
-class Product(ProductsBase):
+class Product(ProductBase):
     id: Union[int, None]
 
     class Config:
