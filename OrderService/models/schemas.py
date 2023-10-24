@@ -16,6 +16,9 @@ class OrderItem(OrderItemBase):
     id: Union[int, None]
     order_item_id: int
 
+    class Config:
+        orm_mode = True
+
 
 class OrderBase(BaseModel):
     order_date: str
