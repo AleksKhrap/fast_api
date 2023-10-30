@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends  # , HTTPException
 from typing import List
 from sqlalchemy.orm import Session
 from OrderService.models import models, schemas
-from OrderService.controllers.order import get_orders
+from OrderService.crud.order import get_orders
 from OrderService.models.database import engine
 from OrderService.models.database import SessionLocal
 

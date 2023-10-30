@@ -13,7 +13,7 @@ class ProductCreate(ProductBase):
 
 
 class Product(ProductBase):
-    id: Union[int, None]
+    product_id: Union[int, None]
 
     class Config:
         orm_mode = True

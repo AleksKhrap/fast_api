@@ -2,9 +2,8 @@ from fastapi import FastAPI, Depends, HTTPException
 from typing import List
 from sqlalchemy.orm import Session
 from ProductService.models import models, schemas
-from ProductService.controllers.products import get_products
-from ProductService.models.database import engine
-from ProductService.models.database import SessionLocal
+from ProductService.crud.products import get_products, get_product_by_name, create_product  # , get_product_by_id
+from ProductService.models.database import engine, SessionLocal
 
 
 models.Base.metadata.create_all(bind=engine)
@@ -26,21 +25,21 @@ async def read_products(skip: int = 0, limit: int = 100, db: Session = Depends(g
     return products
 
 
-@app.post('/')
-async def create_product(product: schemas.Product, db: Session = Depends(get_db)):
-    db_product = models.Products(**product.model_dump())
-    db.add(db_product)
-    db.commit()
-    db.refresh(db_product)
-    return db_product
+@app.post('/', response_model=schemas.Product)
+async def post_product(product: schemas.ProductCreate, db: Session = Depends(get_db)):
+    db_product = get_product_by_name(db, name=product.name)
+    if db_product:
+        raise HTTPException(status_code=400, detail="Name already added")
+    return create_product(db=db, product=product)
 
 
-@app.delete('/{id}')
-async def remove_product(id: int, db: Session = Depends(get_db)):
-    product = db.query(models.Products).filter(models.Products.id == id).first()
-    if not product:
+'''
+@app.delete('/{product_id}', response_model=schemas.Product)
+async def remove_product(product_id: int, db: Session = Depends(get_db)):
+    db_product = get_product_by_id(db, product_id)
+    if not db_product:
         raise HTTPException(status_code=404, detail="Product not found")
-    db.delete(product)
+    db.delete(db_product)
     db.commit()
     return "Product deleted"
 
@@ -55,3 +54,4 @@ async def update_product(product: schemas.Product, db: Session = Depends(get_db)
     db.commit()
     db.refresh(db_product)
     return db_product
+'''
