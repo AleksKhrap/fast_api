@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends  # , HTTPException
+from fastapi import APIRouter, Depends  # , HTTPException
 from typing import List
 from sqlalchemy.orm import Session
 from OrderService.models import models, schemas
@@ -9,7 +9,7 @@ from OrderService.models.database import SessionLocal
 
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+order_router = APIRouter()
 
 
 def get_db():

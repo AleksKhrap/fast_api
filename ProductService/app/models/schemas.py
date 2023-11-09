@@ -4,10 +4,14 @@ from pydantic import BaseModel
 class ProductBase(BaseModel):
     name: str
     weight: float
-    description: str | None
+    description: str
 
 
 class ProductCreate(ProductBase):
+    pass
+
+
+class ProductUpdate(ProductBase):
     pass
 
 
