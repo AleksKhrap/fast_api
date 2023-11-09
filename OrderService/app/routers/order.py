@@ -1,35 +1,38 @@
-from fastapi import APIRouter, Depends  # , HTTPException
-from typing import List
-from sqlalchemy.orm import Session
-from OrderService.models import models, schemas
-from OrderService.crud.order import get_orders
-from OrderService.models.database import engine
-from OrderService.models.database import SessionLocal
+from fastapi import APIRouter, Depends
+from OrderService.app.models import models, schemas
+from OrderService.app.db.database import AsyncSessionLocal, engine
+from OrderService.app.db import crud
+from sqlalchemy.ext.asyncio import AsyncSession
+from main import CustomException
+
+router = APIRouter()
 
 
-models.Base.metadata.create_all(bind=engine)
-
-order_router = APIRouter()
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+async def create_tables():
+    async with engine.begin() as conn:
+        await conn.run_sync(models.Base.metadata.create_all)
 
 
-@app.get('/', response_model=List[schemas.Order])
-async def read_orders(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    orders = get_orders(db, skip=skip, limit=limit)
-    return orders
+async def get_db():
+    async with AsyncSessionLocal() as session:
+        yield session
 
 
-@app.post('/')
-async def create_order(order: schemas.Order, db: Session = Depends(get_db)):
-    db_order = models.Order(**order.model_dump())
-    db.add(db_order)
-    db.commit()
-    db.refresh(db_order)
-    return db_order
+@router.get('/', response_model=list[schemas.Order])
+async def read_orders(skip: int = 0, limit: int = 100, db: AsyncSession = Depends(get_db)):
+    pass
+
+
+@router.post('/', response_model=schemas.Order)
+async def create_order(order: schemas.OrderCreate, db: AsyncSession = Depends(get_db)):
+    pass
+
+
+@router.put('/{order_id}', response_model=schemas.Order)
+async def change_order(order_id: int, order: schemas.OrderUpdate, db: AsyncSession = Depends(get_db)):
+    pass
+
+
+@router.delete('/')
+async def remove_order(order_id: int, order: schemas.Order, db: AsyncSession = Depends(get_db)):
+    pass

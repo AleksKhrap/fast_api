@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey
 from sqlalchemy.orm import relationship
-from .database import Base
+from OrderService.app.db.database import Base
 
 
 class Order(Base):
@@ -9,16 +9,16 @@ class Order(Base):
     order_id = Column(Integer, primary_key=True, index=True)
     order_date = Column(Date)
 
-    items = relationship("OrderItem", back_populates="order_item_id")
+    items = relationship("Item", back_populates="order_items")
 
 
-class OrderItem(Base):
-    __tablename__ = "order_item"
+class Item(Base):
+    __tablename__ = "item"
 
-    product_id = Column(Integer, primary_key=True, index=True)
+    order_id = Column(Integer, ForeignKey("order.id"), index=True)
+    item_id = Column(Integer, index=True)
     name = Column(String)
     quantity = Column(Integer)
     cost = Column(Float)
-    order_item_id = Column(Integer, ForeignKey("order.id"))
 
-    order_item = relationship("Order", back_populates="items")
+    order_items = relationship("Order", back_populates="items")

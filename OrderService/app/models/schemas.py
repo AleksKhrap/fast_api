@@ -1,20 +1,23 @@
-from typing import Union
 from pydantic import BaseModel
 
 
-class OrderItemBase(BaseModel):
+class ItemBase(BaseModel):
     name: str
     quantity: int
     cost: float
 
 
-class OrderItemCreate(OrderItemBase):
+class ItemCreate(ItemBase):
     pass
 
 
-class OrderItem(OrderItemBase):
-    id: Union[int, None]
-    order_item_id: int
+class ItemUpdate(ItemBase):
+    pass
+
+
+class Item(ItemBase):
+    order_id: int
+    item_id: int
 
     class Config:
         orm_mode = True
@@ -28,9 +31,13 @@ class OrderCreate(OrderBase):
     pass
 
 
+class OrderUpdate(OrderBase):
+    pass
+
+
 class Order(OrderBase):
-    id: Union[int, None]
-    items: list[OrderItem] = []
+    order_id: int
+    items: list[Item] = []
 
     class Config:
         orm_mode = True
