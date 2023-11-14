@@ -33,12 +33,17 @@ async def create_product(db: AsyncSession, product: schemas.InventoryCreate) -> 
 async def update_product(db: AsyncSession, product_id: str, product: schemas.InventoryUpdate) -> (schemas.Inventory |
                                                                                                   None):
     db_product = await read_product_by_id(db, product_id)
+
     if db_product is None:
         return db_product
-    db_product.product_name, db_product.quantity_on_inventory, db_product.current_price = (
-        product.product_name,
-        product.quantity_on_inventory,
-        product.current_price)
+
+    if product.product_name is not None:
+        db_product.product_name = product.product_name
+    if product.quantity_on_inventory is not None:
+        db_product.quantity_on_inventory = product.quantity_on_inventory
+    if product.current_price is not None:
+        db_product.current_price = product.current_price
+
     await db.commit()
     await db.refresh(db_product)
     return db_product
