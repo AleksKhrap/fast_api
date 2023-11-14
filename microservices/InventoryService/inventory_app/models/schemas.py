@@ -4,7 +4,7 @@ from uuid import UUID
 
 class InventoryBase(BaseModel):
     product_name: str
-    quantity_on_inventory: float
+    quantity_on_inventory: int
     current_price: float
 
 
@@ -13,7 +13,9 @@ class InventoryCreate(InventoryBase):
 
 
 class InventoryUpdate(InventoryBase):
-    pass
+    product_name: str = None
+    quantity_on_inventory: int = None
+    current_price: float = None
 
 
 class Inventory(InventoryBase):
