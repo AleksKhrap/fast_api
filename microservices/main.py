@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 from ProductService.product_app.routers.products import router as product_router
 from OrderService.order_app.routers.order import router as order_router
 from InventoryService.inventory_app.routers.inventory import router as inventory_router
+from NotificationService.notific_app.routers.notification import router as notification_router
 
 app = FastAPI()
 
@@ -16,7 +17,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     )
 
 
-# Обработчик глобальных исключений, который "ловит" все необработанные исключения
+# Обработчик глобальных исключений, который ловит все необработанные исключения
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     return JSONResponse(
@@ -28,3 +29,4 @@ async def global_exception_handler(request: Request, exc: Exception):
 app.include_router(product_router, prefix='/product')
 app.include_router(order_router, prefix='/order')
 app.include_router(inventory_router, prefix='/inventory')
+app.include_router(notification_router, prefix="/notification")
