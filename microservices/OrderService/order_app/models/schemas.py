@@ -3,6 +3,7 @@ from typing import List
 from typing import Any
 from bson import ObjectId
 from pydantic_core import core_schema
+from datetime import datetime
 
 
 class PyObjectId(str):
@@ -32,34 +33,17 @@ class PyObjectId(str):
         return ObjectId(value)
 
 
-class ProductBase(BaseModel):
-    name: str
+class Product(BaseModel):
+    product_id: str
     quantity: int
-    cost: float
-
-
-class ProductCreate(ProductBase):
-    pass
-
-
-class ProductUpdate(ProductBase):
-    pass
-
-
-class Product(ProductBase):
-    product_id: PyObjectId
 
 
 class OrderBase(BaseModel):
-    order_date: str
+    order_date: str = None
 
 
 class OrderCreate(OrderBase):
-    products: List[ProductCreate]
-
-
-class OrderUpdate(OrderBase):
-    pass
+    products: List[Product]
 
 
 class Order(OrderBase):
