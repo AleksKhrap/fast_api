@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from uuid import UUID
 
 
 class ProductBase(BaseModel):
@@ -12,11 +13,13 @@ class ProductCreate(ProductBase):
 
 
 class ProductUpdate(ProductBase):
-    pass
+    name: str = None
+    weight: float = None
+    description: str = None
 
 
 class Product(ProductBase):
-    product_id: str
+    product_id: UUID
 
     class Config:
         orm_mode = True
