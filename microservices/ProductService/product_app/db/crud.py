@@ -8,11 +8,6 @@ async def get_products(db: AsyncSession, skip: int, limit: int):
     return db_products.scalars().all()
 
 
-async def get_product_by_name(db: AsyncSession, name: str):
-    db_product = await db.execute(select(models.Products).where(models.Products.name == name))
-    return db_product.scalar()
-
-
 async def get_product_by_id(db: AsyncSession, product_id: str):
     db_product = await db.execute(select(models.Products).where(models.Products.product_id == product_id))
     return db_product.scalar()
@@ -30,7 +25,12 @@ async def update_product(db: AsyncSession, product_id: str, product: schemas.Pro
     db_product = await get_product_by_id(db, product_id)
     if db_product is None:
         return db_product
-    db_product.name, db_product.weight, db_product.description = product.name, product.weight, product.description
+    if product.name is not None:
+        db_product.name = product.name
+    if product.weight is not None:
+        db_product.weight = product.weight
+    if product.description is not None:
+        db_product.description = product.description
     await db.commit()
     await db.refresh(db_product)
     return db_product
