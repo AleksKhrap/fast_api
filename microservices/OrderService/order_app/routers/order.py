@@ -31,7 +31,7 @@ async def get_all_orders():
 
 
 # Создание заказа
-@router.post('/create_order')
+@router.post('/')
 async def add_order(order: schemas.OrderCreate):
     order_products = []
     total_cost = 0.0
@@ -87,7 +87,7 @@ async def add_order(order: schemas.OrderCreate):
 
 
 # Отмена заказа
-@router.delete("/cancel_order/{order_id}")
+@router.delete("/{order_id}")
 async def cancel_order(order_id: str):
     db_order = await database.orders.find_one({"_id": ObjectId(order_id)})
 
