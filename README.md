@@ -12,7 +12,7 @@
   
 ### Order Service
 - Описание функций: Создание и отмена заказов, взаимодействие с сервисом Inventory через REST API, 
-работа с MongoDB через motor, использование Kafka для отправки сообщений о статусах заказов.
+работа с MongoDB через motor, использование Kafka (producer) для отправки сообщений о статусах заказов.
   
 ### Inventory Service
 - Описание функций: Аналог Product Service с дополнительными полями, CRUD операции, 
@@ -81,7 +81,7 @@ alembic upgrade head
 Необходимо запустить контейнер с Kafka:
 ```bash
 cd microservices
-docker-compose.yml up
+docker-compose up
 ```
 
 ### 5. Запуск сервисов
