@@ -81,7 +81,7 @@ alembic upgrade head
 Необходимо запустить контейнер с Kafka:
 ```bash
 cd microservices
-docker-compose up
+docker-compose up -d
 ```
 
 ### 5. Запуск сервисов
