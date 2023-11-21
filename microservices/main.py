@@ -6,7 +6,26 @@ from OrderService.order_app.routers.order import router as order_router
 from InventoryService.inventory_app.routers.inventory import router as inventory_router
 from NotificationService.notific_app.routers.notification import router as notification_router
 
-app = FastAPI()
+tags_metadata = [
+    {
+        "name": "ProductService",
+        "description": "Operations with products.",
+    },
+    {
+        "name": "OrderService",
+        "description": "Create, cancel and read orders.",
+    },
+    {
+        "name": "InventoryService",
+        "description": "Operations with products of inventory.",
+    },
+    {
+        "name": "NotificationService",
+        "description": "Read all notifications.",
+    }
+]
+
+app = FastAPI(openapi_tags=tags_metadata)
 
 
 @app.exception_handler(RequestValidationError)
@@ -26,7 +45,7 @@ async def global_exception_handler(request: Request, exc: Exception):
     )
 
 
-app.include_router(product_router, prefix='/product')
-app.include_router(order_router, prefix='/order')
-app.include_router(inventory_router, prefix='/inventory')
-app.include_router(notification_router, prefix="/notification")
+app.include_router(product_router, prefix='/product', tags=["ProductService"])
+app.include_router(order_router, prefix='/order', tags=["OrderService"])
+app.include_router(inventory_router, prefix='/inventory', tags=["InventoryService"])
+app.include_router(notification_router, prefix="/notification", tags=["NotificationService"])
