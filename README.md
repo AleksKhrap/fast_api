@@ -41,7 +41,6 @@ http://127.0.0.1:8000/docs после запуска приложения
 
 ```bash
 git clone https://github.com/AleksKhrap/microservices.git
-cd microservices
 ```
 
 ### 2. Установка зависимостей
