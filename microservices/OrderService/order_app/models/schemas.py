@@ -3,7 +3,6 @@ from typing import List
 from typing import Any
 from bson import ObjectId
 from pydantic_core import core_schema
-from datetime import datetime
 
 
 class PyObjectId(str):
