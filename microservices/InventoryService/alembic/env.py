@@ -1,7 +1,9 @@
 import asyncio
 from alembic import context
 from sqlalchemy.ext.asyncio import create_async_engine
-from inventory_app.models.models import Base
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
 
 target_metadata = Base.metadata
 
@@ -28,7 +30,8 @@ async def run_migrations_online():
     and associate a connection with the context.
 
     """
-    connectable = create_async_engine("postgresql+asyncpg://postgres:postgres@localhost:5432/inventory", future=True)
+    connectable = create_async_engine("postgresql+asyncpg://postgres:postgres@postgres-inventory:5433/inventory",
+                                      future=True)
 
     async with connectable.connect() as connection:
         await connection.run_sync(do_run_migrations)

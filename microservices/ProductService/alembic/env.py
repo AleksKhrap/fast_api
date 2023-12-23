@@ -1,20 +1,9 @@
-"""
-If you need make new migration:
-    For this file work Mark directory as sources root microservices/ProductService/product_app.
-    In file models/models/py change import from:
-        from ProductService.product_app.db.database import Base
-    To:
-        from product_app.db.database import Base
-    Then input command:
-        alembic revision --autogenerate -m "something migration name"
-    Check generated file and if it's OK - input:
-        alembic upgrade head
-    And finally unmark all directories without microservices and return correct import in file models/models.py
-"""
 import asyncio
 from alembic import context
 from sqlalchemy.ext.asyncio import create_async_engine
-from product_app.models.models import Base
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
 
 target_metadata = Base.metadata
 
@@ -40,7 +29,8 @@ async def run_migrations_online():
     and associate a connection with the context.
 
     """
-    connectable = create_async_engine("postgresql+asyncpg://postgres:postgres@localhost:5432/products", future=True)
+    connectable = create_async_engine("postgresql+asyncpg://postgres:postgres@postgres-product:5432/products",
+                                      future=True)
 
     async with connectable.connect() as connection:
         await connection.run_sync(do_run_migrations)
