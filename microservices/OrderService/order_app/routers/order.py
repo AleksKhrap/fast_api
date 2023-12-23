@@ -13,7 +13,7 @@ router = APIRouter()
 # Отправка сообщения в Kafka
 async def send_to_kafka(kafka_order_data):
     producer = AIOKafkaProducer(
-        bootstrap_servers='127.0.0.1:9092',
+        bootstrap_servers='kafka:9092',
         value_serializer=lambda m: json.dumps(m).encode('utf-8'),
     )
     try:

@@ -6,19 +6,20 @@ import json
 import asyncio
 
 router = APIRouter()
-
-
-# Прием сообщения из kafka
-async def consume_from_kafka():
-    consumer = AIOKafkaConsumer(
+loop = asyncio.get_event_loop()
+consumer = AIOKafkaConsumer(
         "order_topic",
-        bootstrap_servers="127.0.0.1:9092",
+        bootstrap_servers="kafka:9092",
         value_deserializer=lambda m: json.loads(m.decode("utf-8")),
         auto_offset_reset="earliest",
         enable_auto_commit=True,
         group_id="notification_service_group",
+        loop=loop
     )
 
+
+# Прием сообщения из kafka
+async def consume_from_kafka():
     await consumer.start()
 
     try:
@@ -45,23 +46,14 @@ async def consume_from_kafka():
         await consumer.stop()
 
 
-async def kafka_consumer_scheduler():
-    while True:
-        await consume_from_kafka()  # вызов функции для чтения из Kafka
-        await asyncio.sleep(10)  # задержка между обращениями к Kafka
-
-
-# Запуск асинхронной задачи
-async def run_kafka_consumer():
-    asyncio.create_task(kafka_consumer_scheduler())
-
-
-# Запуск асинхронной функции
+@router.on_event("startup")
 async def startup_event():
-    await run_kafka_consumer()
+    loop.create_task(consume_from_kafka())
 
 
-router.add_event_handler("startup", startup_event)  # Запуск Kafka consumer на фоне
+@router.on_event("shutdown")
+async def shutdown_event():
+    await consumer.stop()
 
 
 @router.get("/")
