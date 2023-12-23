@@ -1,6 +1,6 @@
 from datetime import datetime
 from fastapi import APIRouter
-from NotificationService.notific_app.db.database import database
+from ..db.database import database
 from aiokafka import AIOKafkaConsumer
 import json
 import asyncio
@@ -12,7 +12,7 @@ router = APIRouter()
 async def consume_from_kafka():
     consumer = AIOKafkaConsumer(
         "order_topic",
-        bootstrap_servers="localhost:9092",
+        bootstrap_servers="127.0.0.1:9092",
         value_deserializer=lambda m: json.loads(m.decode("utf-8")),
         auto_offset_reset="earliest",
         enable_auto_commit=True,

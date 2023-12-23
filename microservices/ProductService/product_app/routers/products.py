@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
-from ProductService.product_app.models import models, schemas
-from ProductService.product_app.db.database import AsyncSessionLocal, engine
-from ProductService.product_app.db import crud
+from ..models import models, schemas
+from ..db.database import AsyncSessionLocal, engine
+from ..db import crud
 from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter()

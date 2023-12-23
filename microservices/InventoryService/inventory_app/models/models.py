@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, Float
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
-from InventoryService.inventory_app.db.database import Base
+from ..db.database import Base
 
 
 class Inventory(Base):

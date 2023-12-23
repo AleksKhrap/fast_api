@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
-from OrderService.order_app.models import schemas
-from OrderService.order_app.db.database import database
-from OrderService.order_app.db import crud
+from ..models import schemas
+from ..db.database import database
+from ..db import crud
 from aiokafka import AIOKafkaProducer
 import json
 from datetime import datetime
@@ -13,7 +13,7 @@ router = APIRouter()
 # Отправка сообщения в Kafka
 async def send_to_kafka(kafka_order_data):
     producer = AIOKafkaProducer(
-        bootstrap_servers='localhost:9092',
+        bootstrap_servers='127.0.0.1:9092',
         value_serializer=lambda m: json.dumps(m).encode('utf-8'),
     )
     try:

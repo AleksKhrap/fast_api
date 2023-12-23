@@ -1,6 +1,6 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from InventoryService.inventory_app.models import models, schemas
+from ..models import models, schemas
 
 
 async def read_products(db: AsyncSession, skip: int, limit: int):

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
-from InventoryService.inventory_app.models import models, schemas
-from InventoryService.inventory_app.db.database import AsyncSessionLocal, engine
-from InventoryService.inventory_app.db import crud
+from ..models import models, schemas
+from ..db.database import AsyncSessionLocal, engine
+from ..db import crud
 from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter()
