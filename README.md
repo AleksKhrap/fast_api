@@ -14,8 +14,8 @@ http://127.0.0.1:8000/docs после запуска приложения. Graph
 использование SqlAlchemy, для миграций Alembic.
 
 Продукт имеет следующие поля:
-- product_id - UUID
-- name - str
+- product_id: UUID
+- name: str
 - weight: float 
 - description: str
   
@@ -30,11 +30,11 @@ http://127.0.0.1:8000/docs после запуска приложения. Graph
 
 Данные заказа:
 - order_id: PyObjectId
-- order date
+- order date: str
 - products: List[Product]
     - product_id: str 
     - quantity: int
-- total_cost
+- total_cost: float
 
   
 ### Inventory Service
